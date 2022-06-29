@@ -1,0 +1,1 @@
+cmd_/home/embedded/nguyen_van_duy/encrypt_module/aes_encrypt.ko := ld -r -m elf_x86_64  -z max-page-size=0x200000  --build-id  -T ./scripts/module-common.lds -o /home/embedded/nguyen_van_duy/encrypt_module/aes_encrypt.ko /home/embedded/nguyen_van_duy/encrypt_module/aes_encrypt.o /home/embedded/nguyen_van_duy/encrypt_module/aes_encrypt.mod.o;  true

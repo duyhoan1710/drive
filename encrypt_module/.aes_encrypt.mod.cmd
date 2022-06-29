@@ -1,0 +1,1 @@
+cmd_/home/embedded/nguyen_van_duy/encrypt_module/aes_encrypt.mod := { echo  /home/embedded/nguyen_van_duy/encrypt_module/aes_encrypt.o;  echo; } > /home/embedded/nguyen_van_duy/encrypt_module/aes_encrypt.mod
