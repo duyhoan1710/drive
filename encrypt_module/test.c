@@ -4,9 +4,7 @@
 #include <string.h>
 #include <stdint.h>
 
-#define DRIVER_FILE_NAME "/dev/aes_encrypt"
-
-
+#define DRIVER_FILE_NAME "/dev/des_encrypt"
 
 
 int hextostring(char *in, int len, char *out)
@@ -76,7 +74,7 @@ int main()
 
     // printf("buffer: %s\n", buffer);
 
-    char test_data[1000] = "gia luong 123456786", hex[100], bin[100], cipher[100];
+    char test_data[1000] = "test 123456786", hex[100], bin[100], cipher[100];
     hextostring(test_data, strlen(test_data), hex);
     memset(test_data, 0, sizeof(test_data));
     sprintf(test_data, "encrypt\n%s", hex);

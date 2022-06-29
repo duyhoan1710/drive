@@ -39,17 +39,18 @@ __used __section(__versions) = {
 	{ 0xc79de84d, "device_create" },
 	{ 0x8d62ea07, "__class_create" },
 	{ 0xe3ec2f2b, "alloc_chrdev_region" },
+	{ 0xc29957c3, "__x86_indirect_thunk_rcx" },
 	{ 0x54247796, "crypto_alloc_base" },
 	{ 0xcbd4898c, "fortify_panic" },
 	{ 0xa916b694, "strnlen" },
 	{ 0x362ef408, "_copy_from_user" },
-	{ 0xdecd0b29, "__stack_chk_fail" },
-	{ 0xb44ad4b3, "_copy_to_user" },
-	{ 0x88db9f48, "__check_object_size" },
-	{ 0x56470118, "__warn_printk" },
-	{ 0x3c3ff9fd, "sprintf" },
 	{ 0x2ea2c95c, "__x86_indirect_thunk_rax" },
 	{ 0xe2d5255a, "strcmp" },
+	{ 0xdecd0b29, "__stack_chk_fail" },
+	{ 0x56470118, "__warn_printk" },
+	{ 0xb44ad4b3, "_copy_to_user" },
+	{ 0x88db9f48, "__check_object_size" },
+	{ 0x3c3ff9fd, "sprintf" },
 	{ 0xc5850110, "printk" },
 	{ 0xbdfb6dbb, "__fentry__" },
 };
@@ -57,4 +58,4 @@ __used __section(__versions) = {
 MODULE_INFO(depends, "");
 
 
-MODULE_INFO(srcversion, "C75BA083C572105D985B3B6");
+MODULE_INFO(srcversion, "66690B2E837A33054E9918D");

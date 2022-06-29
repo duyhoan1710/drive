@@ -1,2 +1,0 @@
-/home/embedded/nguyen_van_duy/encrypt_module/aes_encrypt.o
-

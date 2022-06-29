@@ -1,6 +1,6 @@
 CC = gcc
 
-obj-m := aes_encrypt.o
+obj-m := des_encrypt.o
 
 KDIR := /lib/modules/`uname -r`/build
 
@@ -15,7 +15,7 @@ clean:
 
 install:
 	sudo dmesg -C
-	sudo insmod aes_encrypt.ko
+	sudo insmod des_encrypt.ko
 
 remove:
-	sudo rmmod aes_encrypt
+	sudo rmmod des_encrypt

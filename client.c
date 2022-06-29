@@ -15,7 +15,7 @@
 int server_fd;
 pthread_t receive_thread, sent_thread;
 
-int stringtohex(char *in, int len, char *out)
+int hextostring(char *in, int len, char *out)
 {
     int i;
 
@@ -27,7 +27,7 @@ int stringtohex(char *in, int len, char *out)
     return 0;
 }
 
-int hextostring(char *in, int len, char *out)
+int stringtohex(char *in, int len, char *out)
 {
     int i;
     int converter[105];
@@ -62,7 +62,7 @@ static void *receive_message(void *fun_arg)
     int *server_fd = (int *)fun_arg;
     uint16_t receive_byte;
     char buffer[1200], name[100], hex_message[1000], message[1200];
-    // int des_fd = open("/dev/aes_encrypt", O_RDWR);
+    int des_fd = open("/dev/des_encrypt", O_RDWR);
     while (1)
     {
         memset(buffer, 0, sizeof(buffer));
@@ -78,18 +78,18 @@ static void *receive_message(void *fun_arg)
         }
         sscanf(buffer, "%[^:]: %[0-9abcdef]", name, hex_message);
 
-        // memset(buffer, 0, sizeof(buffer));
-        // sprintf(buffer, "decrypt\n%s", hex_message);
-        // write(des_fd, buffer, strlen(buffer));
+        memset(buffer, 0, sizeof(buffer));
+        sprintf(buffer, "decrypt\n%s", hex_message);
+        write(des_fd, buffer, strlen(buffer));
 
-        // memset(hex_message, 0, sizeof(hex_message));
-        // read(des_fd, hex_message, sizeof(hex_message));
+        memset(hex_message, 0, sizeof(hex_message));
+        read(des_fd, hex_message, sizeof(hex_message));
 
-        hextostring(hex_message, sizeof(hex_message), message);
+        stringtohex(hex_message, sizeof(hex_message), message);
         printf("\t\t\t\t%s: %s\n", name, message);
         
     }
-    // close(des_fd);
+    close(des_fd);
 }
 
 static void *send_message(void *fun_arg)
@@ -98,11 +98,11 @@ static void *send_message(void *fun_arg)
     uint16_t sent_byte;
     char message[1000], hex_message[1000], encrypt_message[1200];
 
-    // int des_fd = open("/dev/aes_encrypt", O_RDWR);
-    // if (des_fd == -1) {
-    //     printf("khong mo dc file driver\n");
-    //     exit(0);
-    // }
+    int des_fd = open("/dev/des_encrypt", O_RDWR);
+    if (des_fd == -1) {
+        printf("khong mo dc file driver\n");
+        exit(0);
+    }
 
     while (1)
     {
@@ -113,28 +113,22 @@ static void *send_message(void *fun_arg)
 
         if (strlen(message) != 0) 
         {
-            stringtohex(message, strlen(message), hex_message);
-            // sprintf(encrypt_message, "encrypt\n%s", hex_message);
-            // write(des_fd, encrypt_message, strlen(encrypt_message));
+            hextostring(message, strlen(message), hex_message);
+            sprintf(encrypt_message, "encrypt\n%s", hex_message);
+            write(des_fd, encrypt_message, strlen(encrypt_message));
 
-            // memset(encrypt_message, 0, sizeof(encrypt_message));
-            // read(des_fd, encrypt_message, sizeof(encrypt_message));
+            memset(encrypt_message, 0, sizeof(encrypt_message));
+            read(des_fd, encrypt_message, sizeof(encrypt_message));
 
 
-            // sent_byte = strlen(encrypt_message);
-            // write(*server_fd, &sent_byte, sizeof(sent_byte));
-            // write(*server_fd, encrypt_message, sent_byte);
-
-            sent_byte = strlen(hex_message);
+            sent_byte = strlen(encrypt_message);
             write(*server_fd, &sent_byte, sizeof(sent_byte));
-            write(*server_fd, hex_message, sent_byte);
-
-
+            write(*server_fd, encrypt_message, sent_byte);
         }
         
 
     }
-    // close(des_fd);
+    close(des_fd);
 }
 
 int setname(int server_fd)
