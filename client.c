@@ -1,5 +1,6 @@
 #include <fcntl.h>
-#include <stdint.h>    
+#include <stdint.h>   
+#include <signal.h> 
 #include <pthread.h>
 #include <stdio.h>
 #include <sys/socket.h>
@@ -14,6 +15,15 @@
 
 int server_fd;
 pthread_t receive_thread, sent_thread;
+
+void sigintHandler(int sig_num)
+{
+    signal(SIGINT, sigintHandler);
+    pthread_exit(&receive_thread);
+    pthread_exit(&sent_thread);
+    fflush(stdout);
+    exit(0);
+}
 
 int hextostring(char *in, int len, char *out)
 {
@@ -176,6 +186,9 @@ int main()
     setname(server_fd);
     pthread_create(&receive_thread, NULL, receive_message, &server_fd);
     pthread_create(&sent_thread, NULL, send_message, &server_fd);
+
+    signal(SIGINT, sigintHandler);
+
     while (1)
         sleep(1);
 
